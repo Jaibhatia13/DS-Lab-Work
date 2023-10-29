@@ -40,3 +40,42 @@ public:
             head = nullptr;
             return;
         }
+
+        Node* current = head;
+        while (current->next->next != nullptr) {
+            current = current->next;
+        }
+
+        delete current->next;
+        current->next = nullptr;
+    }
+
+    void display() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+private:
+    Node* head;
+};
+
+int main() {
+    LinkedList myList;
+
+    myList.insertAtEnd(5);
+    myList.insertAtEnd(10);
+    myList.insertAtEnd(15);
+
+    cout << "Linked List after insertions: ";
+    myList.display();
+
+    myList.deleteFromEnd();
+    cout << "Linked List after deleting from the end: ";
+    myList.display();
+
+    return 0;
+}
