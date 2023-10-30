@@ -1,51 +1,55 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <stack>
+
 using namespace std;
 
-    
-    void dfs(vector<bool>&visited,vector<int> &ans,vector<int>adj[],int node){
-        
-        visited[node]=1;
-        ans.push_back(node);
-        
-        for(auto neighbour: adj[node]){
-            
-            if(!visited[neighbour]){
-                dfs(visited,ans,adj,neighbour);
+class Graph {
+    int V; // Number of vertices
+    vector<vector<int>> adj; // Adjacency list
+
+public:
+    Graph(int v) : V(v) {
+        adj.resize(V);
+    }
+
+    // Function to add an edge to the graph
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+    }
+
+    // Recursive function for DFS traversal
+    void DFSUtil(int v, vector<bool>& visited) {
+        visited[v] = true;
+        cout << v << " ";
+
+        for (int neighbor : adj[v]) {
+            if (!visited[neighbor]) {
+                DFSUtil(neighbor, visited);
             }
         }
     }
 
-  
-    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
-        
-        
-        vector<int>ans;
-        
-        vector<bool>visited(V,0);
-        
-        dfs(visited,ans,adj,0);
-        return ans;
-    }
+    // Function to perform DFS traversal
+    void DFS(int start) {
+        vector<bool> visited(V, false);
 
+        DFSUtil(start, visited);
+    }
+};
 
 int main() {
-        int V, E;
-        cin >> V >> E;
+    Graph g(6); // Create a graph with 6 vertices
 
-        vector<int> adj[V];
+    // Add edges to the graph
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 3);
+    g.addEdge(2, 4);
+    g.addEdge(3, 5);
 
-        for (int i = 0; i < E; i++) {
-            int u, v;
-            cin >> u >> v;
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
+    cout << "DFS Traversal starting from vertex 0: ";
+    g.DFS(0);
 
-        vector<int> ans = dfsOfGraph(V, adj);
-        for (int i = 0; i < ans.size(); i++) {
-            cout << ans[i] << " ";
-        }
-        cout << endl;
-    
     return 0;
 }
